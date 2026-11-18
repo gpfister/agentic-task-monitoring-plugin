@@ -5,7 +5,8 @@ This rule set applies whenever the `agentic-task-monitoring-plugin` is active in
 ---
 
 ## 1. Stream Surveillance & Safety
-- **Non-Destructive Observation**: Monitoring workers must strictly perform read/tail operations on target streams. Do not kill or alter target processes unless explicitly requested by the user during a pause gate.
+- **Non-Destructive Observation**: Monitoring workers must strictly perform non-destructive read/tail observation on target streams via `run_command`. Do not kill or alter target processes unless explicitly requested by the user during a pause gate.
+- **Exclusive Code-Change Authority**: `edit_file` and `write_file` are strictly prohibited for repository source code, configuration files, or test suites, and `run_command` must never modify repository files (e.g., no `sed -i`, shell redirection `>`, `>>`, or auto-fixers). Only `@coding-develop` is authorized to modify repository code, configs, or tests.
 - **Buffer & Resource Management**: Guard against unbound in-memory buffering when tailing high-throughput log streams. Process logs in bounded windows.
 
 ---

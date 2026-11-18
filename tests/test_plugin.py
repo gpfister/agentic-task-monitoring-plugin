@@ -166,3 +166,28 @@ def test_question_relay_protocol_in_central_guide():
     assert "Standalone Fallback Mode" in content
 
 
+def test_exclusive_code_change_authority_and_no_edit_file():
+    agent_files = list((PLUGIN_ROOT / "agents").rglob("*.md"))
+    assert len(agent_files) > 0
+    for agent_file in agent_files:
+        content = agent_file.read_text(encoding="utf-8")
+        frontmatter = content.split("---", 2)[1] if content.startswith("---") else ""
+        assert "edit_file" not in frontmatter, f"edit_file must not be declared in {agent_file}"
+        assert "write_file" not in frontmatter, f"write_file must not be declared in {agent_file}"
+
+    monitor_agent = (PLUGIN_ROOT / "agents" / "coding-monitor" / "agent.md").read_text(encoding="utf-8")
+    assert "Exclusive Code-Change Authority" in monitor_agent
+    assert "non-destructive" in monitor_agent.lower()
+
+    skill_content = (PLUGIN_ROOT / "skills" / "coding-monitor" / "SKILL.md").read_text(encoding="utf-8")
+    assert "Exclusive Code-Change Authority" in skill_content
+    assert "non-destructive" in skill_content.lower()
+
+    rules_content = (PLUGIN_ROOT / "rules" / "AGENTS.md").read_text(encoding="utf-8")
+    assert "Exclusive Code-Change Authority" in rules_content
+    assert "edit_file" in rules_content
+    assert "write_file" in rules_content
+    assert "non-destructive" in rules_content.lower()
+
+
+

@@ -11,7 +11,8 @@ The `coding-monitor` skill provides runbooks and operational procedures for stre
 
 ## Capabilities
 
-- **Log & Stream Surveillance**: Tails application logs, Docker stdout, or serial port streams (`/dev/tty*`).
+- **Log & Stream Surveillance (Read-Only)**: Tails application logs, Docker stdout, or serial port streams (`/dev/tty*`) via non-destructive `run_command` observation.
+- **Exclusive Code-Change Authority**: Strictly prohibited from modifying repository source code, configuration files, or test suites (`edit_file` and `write_file` are disallowed for repository edits, and `run_command` must never mutate repository files). Any required code or configuration fixes must be routed to `@coding-investigate` / `@coding` for implementation by `@coding-develop`.
 - **Error Detection**: Detects exceptions, stack traces, panics, and custom alert conditions.
 - **Intervention Gate & Question Relay Protocol (@coding-investigate)**:
   - Pauses monitoring immediately when an anomaly is discovered, formulating a structured `MonitoringAlert`.
